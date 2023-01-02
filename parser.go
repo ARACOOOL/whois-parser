@@ -258,7 +258,7 @@ func searchDomain(text string) (name, extension string) {
 		}
 	}
 	
-	if name == "name" {
+	if name == "Name" {
 		name = ""	
 	}
 
