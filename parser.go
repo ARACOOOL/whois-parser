@@ -249,19 +249,6 @@ func searchDomain(text string) (name, extension string) {
 		extension = strings.TrimSpace(m[3])
 	}
 
-	if name == "" {
-		r := regexp.MustCompile(`(?i)\[?domain\:?(\s*\_?name)?\]?[\s\.]*\:?\s*([^\s\,\;\(\)\.]{2,})\n`)
-		m := r.FindStringSubmatch(text)
-		if len(m) > 0 {
-			name = strings.TrimSpace(m[2])
-			extension = ""
-		}
-	}
-	
-	if name == "Name" {
-		name = ""	
-	}
-
 	if name != "" {
 		name = strings.ToLower(name)
 		extension = strings.ToLower(extension)
