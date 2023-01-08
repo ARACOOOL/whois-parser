@@ -87,6 +87,7 @@ func isNotFoundDomain(data string) bool {
 func isInvalidDomain(data string) bool {
 	notFoundKeys := []string{
 		"invalid domain name",
+		"malformed request",
 	}
 
 	return containsIn(strings.ToLower(data), notFoundKeys)
