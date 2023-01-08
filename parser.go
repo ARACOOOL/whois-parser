@@ -30,7 +30,7 @@ import (
 
 // Version returns package version
 func Version() string {
-	return "1.24.1"
+	return "1.24.8"
 }
 
 // Author returns package author
@@ -123,13 +123,6 @@ func Parse(text string) (whoisInfo WhoisInfo, err error) { //nolint:cyclop
 		case "name_servers":
 			domain.NameServers = append(domain.NameServers, strings.Split(value, ",")...)
 		case "created_date":
-			if domain.CreatedDate == "" {
-				domain.CreatedDate = value
-				if parsed, err := parseDateString(value); err == nil {
-					domain.CreatedDateInTime = &parsed
-				}
-			}
-		case "record created":
 			if domain.CreatedDate == "" {
 				domain.CreatedDate = value
 				if parsed, err := parseDateString(value); err == nil {

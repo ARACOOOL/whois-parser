@@ -52,6 +52,7 @@ var (
 		"domain nameservers":                     "name_servers",
 		"domain name servers":                    "name_servers",
 		"domain servers in listed order":         "name_servers",
+		"record created":                         "created_date",
 		"created":                                "created_date",
 		"registered":                             "created_date",
 		"created on":                             "created_date",
