@@ -129,6 +129,13 @@ func Parse(text string) (whoisInfo WhoisInfo, err error) { //nolint:cyclop
 					domain.CreatedDateInTime = &parsed
 				}
 			}
+		case "record created":
+			if domain.CreatedDate == "" {
+				domain.CreatedDate = value
+				if parsed, err := parseDateString(value); err == nil {
+					domain.CreatedDateInTime = &parsed
+				}
+			}
 		case "updated_date":
 			if domain.UpdatedDate == "" {
 				domain.UpdatedDate = value
