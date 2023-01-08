@@ -30,7 +30,7 @@ import (
 
 // Version returns package version
 func Version() string {
-	return "1.24.8"
+	return "1.24.9"
 }
 
 // Author returns package author
@@ -46,10 +46,7 @@ func License() string {
 // Parse returns parsed whois info
 func Parse(text string) (whoisInfo WhoisInfo, err error) { //nolint:cyclop
 	name, extension := searchDomain(text)
-	if name == "" {
-		err = getDomainErrorType(text)
-		return
-	}
+	err = getDomainErrorType(text)
 
 	if extension != "" && isExtNotFoundDomain(text, extension) {
 		err = ErrNotFoundDomain

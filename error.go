@@ -53,9 +53,11 @@ func getDomainErrorType(data string) error {
 		return ErrReservedDomain
 	case isLimitExceeded(data):
 		return ErrDomainLimitExceed
-	default:
+	case isInvalidDomain(data):
 		return ErrDomainDataInvalid
 	}
+
+	return nil
 }
 
 // isNotFoundDomain returns if domain is not found
@@ -75,6 +77,15 @@ func isNotFoundDomain(data string) bool {
 		"object does not exist",
 		"query returned 0 objects",
 		"domain name not known",
+	}
+
+	return containsIn(strings.ToLower(data), notFoundKeys)
+}
+
+// isInvalidDomain returns if domain is invalid
+func isInvalidDomain(data string) bool {
+	notFoundKeys := []string{
+		"invalid domain name",
 	}
 
 	return containsIn(strings.ToLower(data), notFoundKeys)
