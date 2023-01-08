@@ -74,6 +74,7 @@ func isNotFoundDomain(data string) bool {
 		"no matching record",
 		"not registered",
 		"not been registered",
+		"no object found",
 		"object does not exist",
 		"query returned 0 objects",
 		"domain name not known",
