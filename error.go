@@ -86,6 +86,7 @@ func isNotFoundDomain(data string) bool {
 // isInvalidDomain returns if domain is invalid
 func isInvalidDomain(data string) bool {
 	notFoundKeys := []string{
+		"invalid parameter",
 		"invalid domain name",
 		"malformed request",
 	}
