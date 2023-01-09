@@ -139,6 +139,7 @@ func isReservedDomain(data string) bool {
 		"reserved domain name",
 		"reserved by the registry",
 		"can not be registered online",
+		"domain is reserved",
 	}
 
 	return containsIn(strings.ToLower(data), reservedKeys)
