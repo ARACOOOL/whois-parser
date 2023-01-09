@@ -536,9 +536,11 @@ func prepareCH(text string) string {
 				break
 			}
 		}
+
 		if v == "" {
 			continue
 		}
+
 		if len(tokens[lastToken]) > 0 {
 			if strings.HasPrefix(v, phoneMark) {
 				lastTokenIndex++
@@ -548,9 +550,16 @@ func prepareCH(text string) string {
 			if tokens[lastToken][lastTokenIndex] != "Registrar street" {
 				lastTokenIndex++
 			}
-		} else {
-			result += fmt.Sprintf("\n%s: %s", lastToken, v)
+			
+			continue
 		}
+
+		if lastToken == "" {
+			result += v
+			continue
+		}
+
+		result += fmt.Sprintf("\n%s: %s", lastToken, v)
 	}
 
 	return result
