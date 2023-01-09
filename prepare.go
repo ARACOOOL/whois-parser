@@ -550,12 +550,12 @@ func prepareCH(text string) string {
 			if tokens[lastToken][lastTokenIndex] != "Registrar street" {
 				lastTokenIndex++
 			}
-			
+
 			continue
 		}
 
 		if lastToken == "" {
-			result += v
+			result += fmt.Sprintf("\n%s", v)
 			continue
 		}
 
