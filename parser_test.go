@@ -69,12 +69,12 @@ func TestParseError(t *testing.T) {
 	}
 
 	for e, v := range tests {
-		_, err := Parse(v)
+		_, err := Parse(v, "dd.com")
 		assert.Equal(t, err, e)
 	}
 
 	_, err := Parse(`Domain Name: likexian-no-money-registe.ai
-	Domain Status: No Object Found`)
+	Domain Status: No Object Found`, "dd.com")
 	assert.Equal(t, err, ErrNotFoundDomain)
 }
 
@@ -103,7 +103,7 @@ func TestParse(t *testing.T) {
 		whoisRaw, err := xfile.ReadText(noterrorDir + "/" + v.Name)
 		assert.Nil(t, err)
 
-		whoisInfo, err := Parse(whoisRaw)
+		whoisInfo, err := Parse(whoisRaw, "dd.com")
 		assert.Nil(t, err)
 
 		assert.Equal(t, whoisInfo.Domain.Punycode, domain)

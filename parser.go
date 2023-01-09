@@ -44,8 +44,11 @@ func License() string {
 }
 
 // Parse returns parsed whois info
-func Parse(text string) (whoisInfo WhoisInfo, err error) { //nolint:cyclop
-	name, extension := searchDomain(text)
+func Parse(text, domainName string) (whoisInfo WhoisInfo, err error) { //nolint:cyclop
+	parts := strings.Split(".", strings.ToLower(strings.TrimSpace(domainName)))
+	extension := parts[len(parts)-1]
+	name := strings.ReplaceAll(domainName, "."+extension, "")
+
 	err = getDomainErrorType(text)
 
 	if extension != "" && isExtNotFoundDomain(text, extension) {
