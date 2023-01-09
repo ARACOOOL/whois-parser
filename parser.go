@@ -47,7 +47,7 @@ func License() string {
 func Parse(text, domainName string) (whoisInfo WhoisInfo, err error) { //nolint:cyclop
 	parts := strings.Split(strings.ToLower(strings.TrimSpace(domainName)), ".")
 	extension := parts[len(parts)-1]
-	name := strings.ReplaceAll(domainName, "."+extension, "")
+	name := domainName
 
 	err = getDomainErrorType(text)
 
