@@ -64,6 +64,7 @@ func getDomainErrorType(data string) error {
 func isNotFoundDomain(data string) bool {
 	notFoundKeys := []string{
 		"is available for registration",
+		"not available",
 		"is free",
 		"no found",
 		"no match",
