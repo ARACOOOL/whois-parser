@@ -92,6 +92,7 @@ func isInvalidDomain(data string) bool {
 		"invalid domain name",
 		"malformed request",
 		"name is not available for registration",
+		"invalid request",
 	}
 
 	return containsIn(strings.ToLower(data), notFoundKeys)
