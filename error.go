@@ -38,6 +38,8 @@ var (
 	ErrDomainDataInvalid = errors.New("whoisparser: domain whois data is invalid")
 	// ErrDomainLimitExceed domain whois query is limited
 	ErrDomainLimitExceed = errors.New("whoisparser: domain whois query limit exceeded")
+	// ErrServerIsBusy whois server is busy
+	ErrServerIsBusy = errors.New("whoisparser: whois server is busy")
 )
 
 // getDomainErrorType returns error type of domain data
@@ -53,11 +55,21 @@ func getDomainErrorType(data string) error {
 		return ErrReservedDomain
 	case isLimitExceeded(data):
 		return ErrDomainLimitExceed
+	case isServerBusy(data):
+		return ErrServerIsBusy
 	case isInvalidDomain(data):
 		return ErrDomainDataInvalid
 	}
 
 	return nil
+}
+
+func isServerBusy(data string) bool {
+	notFoundKeys := []string{
+		"server is busy now",
+	}
+
+	return containsIn(strings.ToLower(data), notFoundKeys)
 }
 
 // isNotFoundDomain returns if domain is not found
@@ -93,6 +105,7 @@ func isInvalidDomain(data string) bool {
 		"malformed request",
 		"name is not available for registration",
 		"invalid request",
+		"release process:",
 	}
 
 	return containsIn(strings.ToLower(data), notFoundKeys)
