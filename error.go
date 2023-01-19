@@ -92,6 +92,8 @@ func isNotFoundDomain(data string) bool {
 		"object does not exist",
 		"query returned 0 objects",
 		"domain name not known",
+		"dominio no registrado",
+		"domain unknown",
 	}
 
 	return containsIn(strings.ToLower(data), notFoundKeys)
@@ -106,6 +108,7 @@ func isInvalidDomain(data string) bool {
 		"name is not available for registration",
 		"invalid request",
 		"release process:",
+		"invalid input",
 	}
 
 	return containsIn(strings.ToLower(data), notFoundKeys)
