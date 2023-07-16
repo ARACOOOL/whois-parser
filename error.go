@@ -76,7 +76,6 @@ func isServerBusy(data string) bool {
 func isNotFoundDomain(data string) bool {
 	notFoundKeys := []string{
 		"is available for registration",
-		"not available",
 		"is free",
 		"no found",
 		"no match",
