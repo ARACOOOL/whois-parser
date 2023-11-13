@@ -193,6 +193,7 @@ func isLimitExceeded(data string) bool {
 	limitExceedKeys := []string{
 		"limit exceeded",
 		"server too busy",
+		"has been exceeded",
 	}
 
 	return containsIn(strings.ToLower(data), limitExceedKeys)
