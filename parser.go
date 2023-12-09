@@ -30,7 +30,7 @@ import (
 
 // Version returns package version
 func Version() string {
-	return "1.25.5"
+	return "1.25.6"
 }
 
 // Author returns package author
@@ -157,8 +157,9 @@ func Parse(text, domainName string) (whoisInfo WhoisInfo, err error) { //nolint:
 					name += " organization"
 				}
 			}
+
 			ns := strings.SplitN(name, " ", 2)
-			name = strings.TrimSpace("registrant " + ns[1])
+
 			if ns[0] == "registrar" || ns[0] == "registration" {
 				parseContact(registrar, name, value)
 			} else if ns[0] == "registrant" || ns[0] == "holder" {
@@ -208,37 +209,37 @@ func parseContact(contact *Contact, name, value string) {
 	switch searchKeyName(name) {
 	case "registrant_id":
 		contact.ID = value
-	case "registrant_name":
+	case "registrant_name", "registrar_name":
 		if contact.Name == "" {
 			contact.Name = value
 		}
-	case "registrant_organization":
+	case "registrant_organization", "registrar_organization":
 		if contact.Organization == "" {
 			contact.Organization = value
 		}
-	case "registrant_street":
+	case "registrant_street", "registrar_street":
 		if contact.Street == "" {
 			contact.Street = value
 		} else {
 			contact.Street += ", " + value
 		}
-	case "registrant_city":
+	case "registrant_city", "registrar_city":
 		contact.City = value
-	case "registrant_state_province":
+	case "registrant_state_province", "registrar_state_province":
 		contact.Province = value
-	case "registrant_postal_code":
+	case "registrant_postal_code", "registrar_postal_code":
 		contact.PostalCode = value
-	case "registrant_country":
+	case "registrant_country", "registrar_country":
 		contact.Country = value
-	case "registrant_phone":
+	case "registrant_phone", "registrar_phone":
 		contact.Phone = value
-	case "registrant_phone_ext":
+	case "registrant_phone_ext", "registrar_phone_ext":
 		contact.PhoneExt = value
-	case "registrant_fax":
+	case "registrant_fax", "registrar_fax":
 		contact.Fax = value
-	case "registrant_fax_ext":
+	case "registrant_fax_ext", "registrar_fax_ext":
 		contact.FaxExt = value
-	case "registrant_email":
+	case "registrant_email", "registrar_email":
 		contact.Email = strings.ToLower(value)
 	}
 }
