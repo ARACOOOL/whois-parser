@@ -192,6 +192,7 @@ func isBlockedDomain(data string) bool {
 func isLimitExceeded(data string) bool {
 	limitExceedKeys := []string{
 		"limit exceeded",
+		"connection limit reached",
 		"server too busy",
 		"has been exceeded",
 	}
