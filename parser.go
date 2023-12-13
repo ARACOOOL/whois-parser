@@ -30,7 +30,7 @@ import (
 
 // Version returns package version
 func Version() string {
-	return "1.25.8"
+	return "1.25.9"
 }
 
 // Author returns package author
@@ -71,6 +71,12 @@ func Parse(text, domainName string) (whoisInfo WhoisInfo, err error) { //nolint:
 
 	whoisText, _ := Prepare(text, domain.Extension)
 	whoisLines := strings.Split(whoisText, "\n")
+
+	if len(whoisLines) <= 3 {
+		err = ErrDomainDataInvalid
+		return
+	}
+
 	for i := 0; i < len(whoisLines); i++ {
 		line := strings.TrimSpace(whoisLines[i])
 		if len(line) < 5 || !strings.Contains(line, ":") {
