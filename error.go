@@ -195,6 +195,7 @@ func isLimitExceeded(data string) bool {
 		"connection limit reached",
 		"server too busy",
 		"has been exceeded",
+		"exceeded max command",
 	}
 
 	return containsIn(strings.ToLower(data), limitExceedKeys)
