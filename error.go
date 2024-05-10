@@ -93,6 +93,8 @@ func isNotFoundDomain(data string) bool {
 		"domain name not known",
 		"dominio no registrado",
 		"domain unknown",
+		"no such domain",
+		"object_not_found",
 	}
 
 	return containsIn(strings.ToLower(data), notFoundKeys)
