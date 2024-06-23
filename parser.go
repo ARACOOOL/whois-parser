@@ -153,6 +153,8 @@ func Parse(text, domainName string) (whoisInfo WhoisInfo, err error) { //nolint:
 			}
 		case "referral_url":
 			registrar.ReferralURL = value
+		case "registrant_organization":
+			registrant.Organization = value
 		default:
 			name = clearKeyName(name)
 			if !strings.Contains(name, " ") {
