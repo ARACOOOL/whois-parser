@@ -52,7 +52,6 @@ func Parse(text, domainName string) (whoisInfo WhoisInfo, err error) { //nolint:
 
 	parts := strings.Split(strings.ToLower(strings.TrimSpace(domainName)), ".")
 	extension := parts[len(parts)-1]
-	name := domainName
 
 	if extension != "" && isExtNotFoundDomain(text, extension) {
 		err = ErrNotFoundDomain
@@ -66,7 +65,7 @@ func Parse(text, domainName string) (whoisInfo WhoisInfo, err error) { //nolint:
 	technical := &Contact{}
 	billing := &Contact{}
 
-	domain.Name, _ = idna.ToASCII(name)
+	domain.Name, _ = idna.ToASCII(domainName)
 	domain.Extension, _ = idna.ToASCII(extension)
 
 	whoisText, _ := Prepare(text, domain.Extension)

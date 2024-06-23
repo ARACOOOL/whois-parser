@@ -130,6 +130,7 @@ var (
 		"registrant service provider":            "registrant_name",
 		"registrant org":                         "registrant_organization",
 		"registrant organization":                "registrant_organization",
+		"organization":                           "registrant_organization",
 		"registrant organization name":           "registrant_organization",
 		"registrant contact organization":        "registrant_organization",
 		"registrant organisation":                "registrant_organization",

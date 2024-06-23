@@ -694,7 +694,7 @@ func prepareRU(text string) string {
 
 // prepareJP do prepare the .jp domain
 func prepareJP(text string) string {
-	replacer := regexp.MustCompile(`\n\[(.+?)\][\ ]*(.+?)?`)
+	replacer := regexp.MustCompile(`\n[a-z.\s]*\[(.+?)\][\ ]+(.+?)?`)
 	text = replacer.ReplaceAllString(text, "\n$1: $2")
 
 	adminToken := "Contact Information"
