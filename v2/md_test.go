@@ -31,7 +31,7 @@ Nameserver      dns1.namecheaphosting.com`
 		},
 	}
 
-	result, err := parser.Parse(rawWhois, "automall.md")
+	result, err := parser.Parse(rawWhois)
 	assert.NoError(t, err)
 	assert.Equal(t, expected, result)
 }

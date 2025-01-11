@@ -18,3 +18,8 @@ func parseDate(format, dateStr string) *time.Time {
 	}
 	return &t
 }
+
+// isEmptyContact checks if a Contact struct is empty or contains only placeholder data.
+func isEmptyContact(contact *Contact) bool {
+	return contact.Name == "" && contact.Organization == "" && contact.Country == ""
+}

@@ -2,6 +2,7 @@ package v2
 
 import (
 	"errors"
+
 	"strings"
 )
 
@@ -12,8 +13,11 @@ type AIParser struct{}
 func (p *AIParser) Parse(whoisText string) (WhoisInfo, error) {
 	lines := strings.Split(whoisText, "\n")
 	whoisInfo := WhoisInfo{
-		Domain:    &Domain{},
-		Registrar: &Contact{},
+		Domain:         &Domain{},
+		Registrar:      &Contact{},
+		Registrant:     &Contact{},
+		Administrative: &Contact{},
+		Technical:      &Contact{},
 	}
 
 	for _, line := range lines {
@@ -32,6 +36,24 @@ func (p *AIParser) Parse(whoisText string) (WhoisInfo, error) {
 			whoisInfo.Registrar.Country = cleanValue(line, "Registrar Country:")
 		} else if strings.HasPrefix(line, "Registrar Phone:") {
 			whoisInfo.Registrar.Phone = cleanValue(line, "Registrar Phone:")
+		} else if strings.HasPrefix(line, "Registrant Name:") {
+			whoisInfo.Registrant.Name = cleanValue(line, "Registrant Name:")
+		} else if strings.HasPrefix(line, "Registrant Organization:") {
+			whoisInfo.Registrant.Organization = cleanValue(line, "Registrant Organization:")
+		} else if strings.HasPrefix(line, "Registrant Country:") {
+			whoisInfo.Registrant.Country = cleanValue(line, "Registrant Country:")
+		} else if strings.HasPrefix(line, "Admin Name:") {
+			whoisInfo.Administrative.Name = cleanValue(line, "Admin Name:")
+		} else if strings.HasPrefix(line, "Admin Organization:") {
+			whoisInfo.Administrative.Organization = cleanValue(line, "Admin Organization:")
+		} else if strings.HasPrefix(line, "Admin Country:") {
+			whoisInfo.Administrative.Country = cleanValue(line, "Admin Country:")
+		} else if strings.HasPrefix(line, "Tech Name:") {
+			whoisInfo.Technical.Name = cleanValue(line, "Tech Name:")
+		} else if strings.HasPrefix(line, "Tech Organization:") {
+			whoisInfo.Technical.Organization = cleanValue(line, "Tech Organization:")
+		} else if strings.HasPrefix(line, "Tech Country:") {
+			whoisInfo.Technical.Country = cleanValue(line, "Tech Country:")
 		} else if strings.HasPrefix(line, "Name Server:") {
 			whoisInfo.Domain.NameServers = append(whoisInfo.Domain.NameServers, cleanValue(line, "Name Server:"))
 		} else if strings.HasPrefix(line, "DNSSEC:") {
