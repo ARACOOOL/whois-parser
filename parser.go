@@ -20,6 +20,7 @@
 package whoisparser
 
 import (
+	v2 "github.com/ARACOOOL/whois-parser/v2"
 	"regexp"
 	"strings"
 
@@ -30,7 +31,7 @@ import (
 
 // Version returns package version
 func Version() string {
-	return "1.25.12"
+	return "1.3.0"
 }
 
 // Author returns package author
@@ -44,7 +45,7 @@ func License() string {
 }
 
 // Parse returns parsed whois info
-func Parse(text, domainName string) (whoisInfo WhoisInfo, err error) { //nolint:cyclop
+func Parse(text, domainName string) (whoisInfo v2.WhoisInfo, err error) { //nolint:cyclop
 	err = getDomainErrorType(text)
 	if err != nil {
 		return
@@ -58,12 +59,17 @@ func Parse(text, domainName string) (whoisInfo WhoisInfo, err error) { //nolint:
 		return
 	}
 
-	domain := &Domain{}
-	registrar := &Contact{}
-	registrant := &Contact{}
-	administrative := &Contact{}
-	technical := &Contact{}
-	billing := &Contact{}
+	parser := v2.NewParser(extension)
+	if parser != nil {
+		return parser.Parse(text)
+	}
+
+	domain := &v2.Domain{}
+	registrar := &v2.Contact{}
+	registrant := &v2.Contact{}
+	administrative := &v2.Contact{}
+	technical := &v2.Contact{}
+	billing := &v2.Contact{}
 
 	domain.Name, _ = idna.ToASCII(domainName)
 	domain.Extension, _ = idna.ToASCII(extension)
@@ -188,23 +194,23 @@ func Parse(text, domainName string) (whoisInfo WhoisInfo, err error) { //nolint:
 	domain.Status = xslice.Unique(domain.Status).([]string)
 
 	whoisInfo.Domain = domain
-	if *registrar != (Contact{}) {
+	if *registrar != (v2.Contact{}) {
 		whoisInfo.Registrar = registrar
 	}
 
-	if *registrant != (Contact{}) {
+	if *registrant != (v2.Contact{}) {
 		whoisInfo.Registrant = registrant
 	}
 
-	if *administrative != (Contact{}) {
+	if *administrative != (v2.Contact{}) {
 		whoisInfo.Administrative = administrative
 	}
 
-	if *technical != (Contact{}) {
+	if *technical != (v2.Contact{}) {
 		whoisInfo.Technical = technical
 	}
 
-	if *billing != (Contact{}) {
+	if *billing != (v2.Contact{}) {
 		whoisInfo.Billing = billing
 	}
 
@@ -212,7 +218,7 @@ func Parse(text, domainName string) (whoisInfo WhoisInfo, err error) { //nolint:
 }
 
 // parseContact do parse contact info
-func parseContact(contact *Contact, name, value string) {
+func parseContact(contact *v2.Contact, name, value string) {
 	switch searchKeyName(name) {
 	case "registrant_id":
 		contact.ID = value

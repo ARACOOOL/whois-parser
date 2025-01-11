@@ -103,7 +103,7 @@ func TestParse(t *testing.T) {
 		whoisRaw, err := xfile.ReadText(noterrorDir + "/" + v.Name)
 		assert.Nil(t, err)
 
-		whoisInfo, err := Parse(whoisRaw, "dd.com")
+		whoisInfo, err := Parse(whoisRaw, domain)
 		assert.Nil(t, err)
 
 		assert.Equal(t, whoisInfo.Domain.Punycode, domain)

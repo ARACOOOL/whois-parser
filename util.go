@@ -68,6 +68,17 @@ func searchKeyName(key string) string {
 	return ""
 }
 
+func findNameInLine(line string) (string, string) {
+	line = clearKeyName(line)
+	for k := range keyRule {
+		if strings.HasSuffix(line, k) {
+			return k, strings.TrimSpace(strings.TrimSuffix(line, k))
+		}
+	}
+
+	return "", ""
+}
+
 // fixDomainStatus returns fixed domain status
 func fixDomainStatus(status []string) []string {
 	for k, v := range status {
