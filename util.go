@@ -172,6 +172,8 @@ func parseDateString(dateString string) (time.Time, error) {
 		"2006/02/01 15:04:05 (MST)",
 		"2006-Jan-02",
 		"2006-Jan-02.",
+		"02.01.2006",
+		"01.02.2006",
 	}
 
 	for _, format := range formats {
