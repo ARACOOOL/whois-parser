@@ -46,17 +46,21 @@ func License() string {
 
 // Parse returns parsed whois info
 func Parse(text, domainName string) (whoisInfo v2.WhoisInfo, err error) { //nolint:cyclop
-	err = getDomainErrorType(text)
-	if err != nil {
-		return
-	}
-
 	parts := strings.Split(strings.ToLower(strings.TrimSpace(domainName)), ".")
 	extension := parts[len(parts)-1]
 
-	if extension != "" && isExtNotFoundDomain(text, extension) {
+	if isStatusAvailable(text) || (extension != "" && isExtNotFoundDomain(text, extension)) {
 		err = ErrNotFoundDomain
 		return
+	}
+
+	// Free-text phrases are only trusted when the response carries no record:
+	// names and legal notices inside a registered record contain the same words.
+	if !hasDomainRecord(text) {
+		err = getDomainErrorType(text)
+		if err != nil {
+			return
+		}
 	}
 
 	parser := v2.NewParser(extension)
@@ -195,6 +199,12 @@ func Parse(text, domainName string) (whoisInfo v2.WhoisInfo, err error) { //noli
 
 	domain.NameServers = xslice.Unique(domain.NameServers).([]string)
 	domain.Status = xslice.Unique(domain.Status).([]string)
+
+	if domain.Domain == "" {
+		// Nothing identified the domain, so this is not a record we can vouch for.
+		err = ErrDomainDataInvalid
+		return
+	}
 
 	whoisInfo.Domain = domain
 	if *registrar != (v2.Contact{}) {

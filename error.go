@@ -42,6 +42,46 @@ var (
 	ErrServerIsBusy = errors.New("whoisparser: whois server is busy")
 )
 
+// statusAvailableRe matches a whole status line whose value means the domain is not registered.
+var statusAvailableRe = regexp.MustCompile(
+	`(?mi)^[ \t]*(?:domain[ \t]+)?status[ \t]*:[ \t]*(?:available|free|not registered|no object found)[ \t]*\r?$`)
+
+// recordLineRe captures the value of a "key: value" or "[key] value" line with a short key.
+var recordLineRe = regexp.MustCompile(`^\[?[A-Za-z][A-Za-z0-9 ._/'()-]{0,40}(?:\][ \t]+|\]?[ \t]*:[ \t]*)(\S.*)$`)
+
+const (
+	// minRecordLines is how many record lines a response needs before it is treated as a domain record.
+	minRecordLines = 4
+	// maxRecordValueWords separates field values from the sentences of notices and terms of use.
+	maxRecordValueWords = 6
+)
+
+// isStatusAvailable returns if the registry reports the domain as available through its status field
+func isStatusAvailable(data string) bool {
+	return statusAvailableRe.MatchString(data)
+}
+
+// hasDomainRecord returns if data looks like the record of a registered domain,
+// as opposed to a banner, notice or not-found message
+func hasDomainRecord(data string) bool {
+	count := 0
+	for _, line := range strings.Split(data, "\n") {
+		line = strings.TrimSpace(line)
+		if line == "" || strings.ContainsAny(line[:1], "%#;>*") {
+			continue
+		}
+		match := recordLineRe.FindStringSubmatch(line)
+		if match != nil && len(strings.Fields(match[1])) <= maxRecordValueWords {
+			count++
+			if count >= minRecordLines {
+				return true
+			}
+		}
+	}
+
+	return false
+}
+
 // getDomainErrorType returns error type of domain data
 func getDomainErrorType(data string) error {
 	switch {
@@ -95,6 +135,9 @@ func isNotFoundDomain(data string) bool {
 		"domain unknown",
 		"no such domain",
 		"object_not_found",
+		"no data was found",
+		"does not exist in database",
+		"no se encuentra registrado",
 	}
 
 	return containsIn(strings.ToLower(data), notFoundKeys)
@@ -198,6 +241,12 @@ func isLimitExceeded(data string) bool {
 		"server too busy",
 		"has been exceeded",
 		"exceeded max command",
+		"too many requests",
+		"quota exceeded",
+		"rate limit reached",
+		"exceeded your allotted",
+		"are not permitted",
+		"access denied",
 	}
 
 	return containsIn(strings.ToLower(data), limitExceedKeys)
