@@ -925,6 +925,7 @@ func prepareEU(text string) string {
 		"Registrar:":    "Registrar",
 		"Onsite(s):":    "Onsite",
 		"Name servers:": "Name servers",
+		"Keys:":         "Keys",
 	}
 
 	token := ""

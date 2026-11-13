@@ -130,6 +130,9 @@ func Parse(text, domainName string) (whoisInfo v2.WhoisInfo, err error) { //noli
 			if !domain.DNSSec {
 				domain.DNSSec = isDNSSecEnabled(value)
 			}
+		case "domain_dnssec_key":
+			// Registries that list the key material instead of a DNSSEC status line.
+			domain.DNSSec = true
 		case "whois_server":
 			if domain.WhoisServer == "" {
 				domain.WhoisServer = value
